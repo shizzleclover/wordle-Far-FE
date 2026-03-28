@@ -110,7 +110,13 @@ export function HowToPlayFab({ onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full border-2 border-foreground bg-primary text-xl font-bold text-primary-foreground shadow-[var(--shadow-lg)] transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+      className={[
+        'fixed z-50 flex items-center justify-center rounded-full border-2 border-foreground bg-primary font-bold text-primary-foreground shadow-[var(--shadow-lg)] transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
+        /* Mobile: above header + quick-join so we do not sit on browser back / tab bar */
+        'right-3 top-[calc(10rem+env(safe-area-inset-top\,0px))] h-11 w-11 text-lg sm:right-4',
+        /* Desktop: bottom-right FAB */
+        'md:bottom-6 md:right-6 md:top-auto md:h-14 md:w-14 md:text-xl',
+      ].join(' ')}
       aria-label="How to play"
       title="How to play"
     >
