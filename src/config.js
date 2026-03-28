@@ -1,17 +1,18 @@
-/** API calls use same-origin /api (Vite proxy in dev). Socket needs full URL. */
 export const TOKEN_KEY = 'wordle-duel-token'
 
-export function getSocketUrl() {
-  const fromEnv = import.meta.env.VITE_SERVER_URL
-  if (fromEnv) return fromEnv.replace(/\/$/, '')
-  if (typeof window !== 'undefined') {
-    return `${window.location.protocol}//${window.location.hostname}:3001`
-  }
+/** API + Socket.IO base (no trailing slash). Override with VITE_API_URL. */
+function apiBase() {
+  const raw = import.meta.env.VITE_API_URL
+  if (raw) return String(raw).replace(/\/$/, '')
   return 'http://localhost:3001'
 }
 
+export function getSocketUrl() {
+  return apiBase()
+}
+
 export function apiUrl(path) {
-  const base = import.meta.env.VITE_API_URL || ''
-  if (base) return `${base.replace(/\/$/, '')}${path}`
-  return path
+  const base = apiBase()
+  const p = path.startsWith('/') ? path : `/${path}`
+  return `${base}${p}`
 }
